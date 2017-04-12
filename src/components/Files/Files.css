@@ -1,0 +1,25 @@
+.dropZone {
+    border: 2px dashed black;
+    border-radius: 4px;
+    margin-left: 10vh;
+    margin-right: 10vh;
+    margin-top: 10px;
+    padding: 30px;
+    transition: all 0.5s;
+}
+
+.dropZoneActive {
+    border: 2px dashed black;
+    border-radius: 4px;
+    margin-left: 10vh;
+    margin-right: 10vh;
+    margin-top: 10px;
+    padding: 30px;
+    transition: all 0.5s;
+    background-color: #cfcfcf;
+}
+
+.btn-upload {
+    margin-left: 10vh;
+    margin-top: 10px;
+}
