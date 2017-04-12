@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
+const api = require('./routes/api');
 
 const app = express();
 
@@ -10,7 +11,8 @@ app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:htt
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
-// Always return the main index.html, so react-router render the route in the client
+app.use('/api', api);
+
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
