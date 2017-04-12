@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "express": "^4.15.2",
+    "express-fileupload": "^0.1.2",
     "morgan": "^1.8.1",
     "prop-types": "^15.5.7",
     "react": "^15.5.4",

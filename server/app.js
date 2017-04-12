@@ -1,16 +1,17 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
+const fileUpload = require('express-fileupload');
 const api = require('./routes/api');
 
 const app = express();
 
-// Setup logger
+// logger
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 
-// Serve static assets
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
+app.use(fileUpload());
 app.use('/api', api);
 
 app.get('*', (req, res) => {
