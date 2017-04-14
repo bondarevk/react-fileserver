@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './Files.css';
 import * as $ from "jquery";
+import FilesList from "./FilesList/FilesList";
 const Dropzone = require('react-dropzone');
 
 class Files extends Component {
@@ -13,7 +14,7 @@ class Files extends Component {
       errorMessage: "",
       successMessage: "",
       loadProgress: 0
-    };
+    }
   }
 
   onDrop(files) {
@@ -90,42 +91,49 @@ class Files extends Component {
 
   render() {
     return (
-      <div className="upload-container container">
-        <form>
-          {this.state.successMessage ?
-            <div className="alert-message alert alert-success" role="alert">
-              <strong>Успех!</strong> {this.state.successMessage}
-            </div>
-            : null}
-          {this.state.errorMessage ?
-            <div className="alert-message alert alert-danger" role="alert">
-              <strong>Ошибка!</strong> {this.state.errorMessage}
-            </div>
-            : null}
-
-          <Dropzone onDrop={this.onDrop.bind(this)} disableClick={!this.state.loadEnabled} className='dropzone'
-                    activeClassName='dropzone dropzone-active'>{
-            this.state.files.length > 0 ?
-              <div style={{display: 'inline-block'}}>
-                Выбранные файлы:
-                <ul>
-                  {this.state.files.map((file, key) => <li key={key}>{file.name}</li>)}
-                </ul>
+      <div>
+        <div className="upload-container container">
+          <form>
+            {this.state.successMessage ?
+              <div className="alert-message alert alert-success" role="alert">
+                <strong>Успех!</strong> {this.state.successMessage}
               </div>
-              : <div>Загрузить файл</div>}
-          </Dropzone>
+              : null}
+            {this.state.errorMessage ?
+              <div className="alert-message alert alert-danger" role="alert">
+                <strong>Ошибка!</strong> {this.state.errorMessage}
+              </div>
+              : null}
 
-          <div className="progress progress-load">
-            <div className="progress-bar progress-bar-striped" role="progressbar" style={{width: this.state.loadProgress + '%'}} aria-valuenow={this.state.loadProgress.toString()} aria-valuemin="0" aria-valuemax="100"/>
-          </div>
+            <Dropzone onDrop={this.onDrop.bind(this)} disableClick={!this.state.loadEnabled} className='dropzone'
+                      activeClassName='dropzone dropzone-active'>{
+              this.state.files.length > 0 ?
+                <div style={{display: 'inline-block'}}>
+                  Выбранные файлы:
+                  <ul>
+                    {this.state.files.map((file, key) => <li key={key}>{file.name}</li>)}
+                  </ul>
+                </div>
+                : <div>Загрузить файл</div>}
+            </Dropzone>
 
-          <button ref="myButton" type="button" className="btn btn-primary btn-upload" onClick={this.onClickLoad.bind(this)}
-                  disabled={this.state.files.length === 0 || !this.state.loadEnabled}>
-            Загрузить на сервер
-          </button>
+            <div className="progress progress-load">
+              <div className="progress-bar progress-bar-striped" role="progressbar"
+                   style={{width: this.state.loadProgress + '%'}} aria-valuenow={this.state.loadProgress.toString()}
+                   aria-valuemin="0" aria-valuemax="100"/>
+            </div>
 
-        </form>
+            <button ref="myButton" type="button" className="btn btn-primary btn-upload"
+                    onClick={this.onClickLoad.bind(this)}
+                    disabled={this.state.files.length === 0 || !this.state.loadEnabled}>
+              Загрузить на сервер
+            </button>
+
+          </form>
+        </div>
+        <FilesList/>
       </div>
+
     )
   }
 
