@@ -11,7 +11,8 @@ class Files extends Component {
       files: [],
       loadEnabled: true,
       errorMessage: "",
-      successMessage: ""
+      successMessage: "",
+      loadProgress: 0
     };
   }
 
@@ -44,7 +45,9 @@ class Files extends Component {
         let xhr = $.ajaxSettings.xhr();
         if (xhr.upload) {
           xhr.upload.addEventListener('progress', (event) => {
-            console.log('progress: ', event);
+            this.setState({
+              loadProgress: (event.loaded / event.total) * 100
+            });
           }, false);
         }
         return xhr;
@@ -65,7 +68,8 @@ class Files extends Component {
         this.setState({
           loadEnabled: true,
           successMessage: "",
-          errorMessage: "Не удалось загрузить файлы. (" + data.status + ")"
+          errorMessage: "Не удалось загрузить файлы. (" + data.status + ")",
+          loadProgress: 0
         });
         console.log('error: ', data);
       }
@@ -104,9 +108,15 @@ class Files extends Component {
               : <div>Загрузить файл</div>}
           </Dropzone>
 
+          <div className="progress progress-load">
+            <div className="progress-bar progress-bar-striped" role="progressbar" style={{width: this.state.loadProgress + '%'}} aria-valuenow={this.state.loadProgress.toString()} aria-valuemin="0" aria-valuemax="100"/>
+          </div>
+
           <button type="button" className="btn btn-primary btn-upload" onClick={this.onClickLoad.bind(this)}
-                  disabled={this.state.files.length === 0 || !this.state.loadEnabled}>Загрузить на сервер
+                  disabled={this.state.files.length === 0 || !this.state.loadEnabled}>
+            Загрузить на сервер
           </button>
+
         </form>
       </div>
     )
