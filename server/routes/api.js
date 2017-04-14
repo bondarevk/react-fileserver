@@ -11,9 +11,10 @@ router.post('/upload', (req, res) => {
   global.upload(req, res, function(err) {
     console.log(req.files);
     if(err) {
-      return res.end("Error uploading file.");
+      res.status(400).send("Error uploading file.");
+      return;
     }
-    res.end("File is uploaded");
+    res.send("File uploaded.");
   })
 });
 

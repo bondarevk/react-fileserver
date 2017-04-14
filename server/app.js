@@ -14,10 +14,10 @@ app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 
 const storage = multer.diskStorage({
-  destination: function (req, file, callback) {
+  destination: (req, file, callback) => {
     callback(null, './server/static/uploads/');
   },
-  filename: function (req, file, callback) {
+  filename: (req, file, callback) => {
     callback(null, file.originalname);
   }
 });
