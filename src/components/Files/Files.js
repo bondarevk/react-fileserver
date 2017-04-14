@@ -33,7 +33,7 @@ class Files extends Component {
 
     let formData = new FormData();
     this.state.files.forEach((file) => {
-      formData.append(file.name, file);
+      formData.append('file', file);
     });
 
     $.ajax({

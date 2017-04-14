@@ -8,24 +8,13 @@ router.get('/', (req, res) => {
 });
 
 router.post('/upload', (req, res) => {
-  if (!req.files)
-    return res.status(400).send('No files were uploaded.');
-
-  Object.values(req.files).forEach((file) => {
-
-    let filepath = 'server/static/uploads/' + file.name;
-    fs.exists(filepath, (exists) => {
-      if (!exists) {
-        file.mv(filepath, (err) => {
-          if (err) {
-            console.log(err);
-          }
-        });
-      }
-    });
-  });
-
-  res.send('request accepted');
+  global.upload(req, res, function(err) {
+    console.log(req.files);
+    if(err) {
+      return res.end("Error uploading file.");
+    }
+    res.end("File is uploaded");
+  })
 });
 
 module.exports = router;

@@ -1,7 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-const fileUpload = require('express-fileupload');
+const bodyParser = require("body-parser");
+const multer = require('multer');
 const api = require('./routes/api');
 
 const app = express();
@@ -11,7 +12,19 @@ app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:htt
 
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
-app.use(fileUpload());
+
+const storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './server/static/uploads/');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+  }
+});
+global.upload = multer({ storage : storage }).array('file');
+
+
+app.use(bodyParser.json());
 app.use('/api', api);
 app.use('/uploads', express.static(path.resolve(__dirname, 'static', 'uploads')));
 
