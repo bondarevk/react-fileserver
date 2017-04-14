@@ -21,7 +21,6 @@ class Files extends Component {
       return;
     }
 
-    console.log('Received files: ', files);
     this.setState({
       files: files
     });
@@ -77,8 +76,16 @@ class Files extends Component {
 
   }
 
+  checkOverwrite(callback) {
+    if (true) {
+      callback();
+    }
+  }
+
   onClickLoad() {
-    this.startLoad();
+    this.checkOverwrite(() => {
+      this.startLoad();
+    });
   }
 
   render() {
@@ -112,7 +119,7 @@ class Files extends Component {
             <div className="progress-bar progress-bar-striped" role="progressbar" style={{width: this.state.loadProgress + '%'}} aria-valuenow={this.state.loadProgress.toString()} aria-valuemin="0" aria-valuemax="100"/>
           </div>
 
-          <button type="button" className="btn btn-primary btn-upload" onClick={this.onClickLoad.bind(this)}
+          <button ref="myButton" type="button" className="btn btn-primary btn-upload" onClick={this.onClickLoad.bind(this)}
                   disabled={this.state.files.length === 0 || !this.state.loadEnabled}>
             Загрузить на сервер
           </button>
