@@ -18,4 +18,16 @@ router.post('/upload', (req, res) => {
   })
 });
 
+router.post('/files', (req, res) => {
+  res.header("Content-Type", "application/json");
+  res.header("Access-Control-Allow-Origin", "*");
+
+  let files = fs.readdirSync('./server/static/uploads/');
+
+  res.status(200).send({
+    status: 'success',
+    files: files
+  })
+});
+
 module.exports = router;

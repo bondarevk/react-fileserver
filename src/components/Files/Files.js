@@ -39,7 +39,7 @@ class Files extends Component {
 
     $.ajax({
       type: 'POST',
-      url: 'api/upload',
+      url: '/api/upload',
       data: formData,
       xhr: () => {
         let xhr = $.ajaxSettings.xhr();
@@ -62,7 +62,7 @@ class Files extends Component {
           successMessage: "Загрузка успешно завершена.",
           errorMessage: ""
         });
-        console.log('success: ', data);
+        console.log(this.refs['filesList'].loadFilesList());
       },
       error: (data) => {
         this.setState({
@@ -70,11 +70,9 @@ class Files extends Component {
           successMessage: "",
           errorMessage: "Не удалось загрузить файлы. (" + data.status + ")",
           loadProgress: 0
-        });
-        console.log('error: ', data);
+        })
       }
-    });
-
+    })
   }
 
   checkOverwrite(callback) {
@@ -131,7 +129,7 @@ class Files extends Component {
 
           </form>
         </div>
-        <FilesList/>
+        <FilesList ref="filesList"/>
       </div>
 
     )

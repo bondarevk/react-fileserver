@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import * as $ from "jquery";
 import './FilesList.css';
 import FileItem from "./FileItem/FileItem";
 
@@ -11,12 +12,36 @@ class FilesList extends Component {
     }
   }
 
+  loadFilesList() {
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:9000/api/files',
+      dataType: 'json',
+      contentType: 'application/json',
+      success: (data) => {
+        if (data.status === 'success') {
+          this.setState({
+            files: data.files
+          })
+        }
+      }
+    })
+  }
+
+  componentDidMount() {
+    this.loadFilesList();
+    this.countdown = setInterval(this.loadFilesList.bind(this), 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.countdown);
+  }
+
   render() {
     return (
       <div className="container files-container">
         <ul className="list-group">
-          <FileItem filename="info1.txt"/>
-          <FileItem filename="info2.txt"/>
+          {this.state.files.map((file, key) => <FileItem key={file} filename={file}/>)}
         </ul>
       </div>
     )
