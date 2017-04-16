@@ -4,18 +4,22 @@ const path = require('path');
 const bodyParser = require("body-parser");
 const multer = require('multer');
 const api = require('./routes/api');
+const fs = require("fs");
 
 const app = express();
 
-// logger
-app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
+global.uploadsDir = './server/static/uploads/';
 
+app.use(morgan(':remote-addr - ":method :url HTTP/:http-version" :status :response-time ms'));
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
+if (!fs.existsSync(global.uploadsDir)){
+  fs.mkdirSync(global.uploadsDir);
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, './server/static/uploads/');
+    callback(null, global.uploadsDir);
   },
   filename: (req, file, callback) => {
     callback(null, file.originalname);

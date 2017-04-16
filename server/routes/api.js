@@ -19,7 +19,7 @@ router.put('/upload', (req, res) => {
 
 router.delete('/delete/:filename', (req, res) => {
   res.header("Content-Type", "application/json");
-  fs.unlink('./server/static/uploads/' + req.params.filename, (error) => {
+  fs.unlink(global.uploadsDir + req.params.filename, (error) => {
     if (error) {
       res.status(400).send({
         status: 'error'
@@ -34,7 +34,7 @@ router.delete('/delete/:filename', (req, res) => {
 
 router.get('/files', (req, res) => {
   res.header("Content-Type", "application/json");
-    fs.readdir('./server/static/uploads/', (error, files) => {
+    fs.readdir(global.uploadsDir, (error, files) => {
     if (error) {
       res.status(400).send({
         status: 'error'
