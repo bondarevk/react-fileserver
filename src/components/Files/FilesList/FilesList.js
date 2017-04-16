@@ -14,7 +14,7 @@ class FilesList extends Component {
 
   loadFilesList() {
     $.ajax({
-      type: 'POST',
+      type: 'GET',
       url: 'http://localhost:9000/api/files',
       dataType: 'json',
       contentType: 'application/json',
@@ -30,7 +30,7 @@ class FilesList extends Component {
 
   componentDidMount() {
     this.loadFilesList();
-    this.countdown = setInterval(this.loadFilesList.bind(this), 10000);
+    this.countdown = setInterval(this.loadFilesList.bind(this), 30000);
   }
 
   componentWillUnmount() {
@@ -41,7 +41,7 @@ class FilesList extends Component {
     return (
       <div className="container files-container">
         <ul className="list-group">
-          {this.state.files.map((file, key) => <FileItem key={file} filename={file}/>)}
+          {this.state.files.map((file, key) => <FileItem key={file} filename={file} updateHandler={this.loadFilesList.bind(this)}/>)}
         </ul>
       </div>
     )

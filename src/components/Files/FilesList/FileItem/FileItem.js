@@ -1,14 +1,33 @@
 import React, {Component} from 'react';
+import * as $ from "jquery";
 import './FileItem.css';
 
 class FileItem extends Component {
 
   deleteFile() {
-    console.log('api/delete/' + this.props.filename);
+    $.ajax({
+      type: 'DELETE',
+      url: 'http://localhost:9000/api/delete/' + this.props.filename,
+      dataType: 'json',
+      contentType: 'application/json',
+      success: (data) => {
+        if (data.status === 'success') {
+          if (this.props.updateHandler) {
+            this.props.updateHandler();
+          }
+        }
+      },
+      error: (data) => {
+        alert('Ошибка удаления файла: ' + data.status)
+      }
+    })
   }
 
   downloadFile() {
-    console.log('/uploads/' + this.props.filename);
+    let link = document.createElement('a');
+    link.setAttribute('href', '/uploads/' + this.props.filename);
+    link.setAttribute('download', this.props.filename);
+    link.click();
   }
 
   render() {

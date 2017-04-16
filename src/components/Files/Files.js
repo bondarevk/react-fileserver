@@ -38,7 +38,7 @@ class Files extends Component {
     });
 
     $.ajax({
-      type: 'POST',
+      type: 'PUT',
       url: '/api/upload',
       data: formData,
       xhr: () => {
@@ -62,7 +62,7 @@ class Files extends Component {
           successMessage: "Загрузка успешно завершена.",
           errorMessage: ""
         });
-        console.log(this.refs['filesList'].loadFilesList());
+        this.refs['filesList'].loadFilesList();
       },
       error: (data) => {
         this.setState({

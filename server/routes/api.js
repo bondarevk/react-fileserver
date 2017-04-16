@@ -2,31 +2,49 @@ const express = require('express');
 const fs = require('fs');
 const router = express.Router();
 
-
-router.get('/', (req, res) => {
-  res.send('api works');
-});
-
-router.post('/upload', (req, res) => {
-  global.upload(req, res, function(err) {
-    console.log(req.files);
-    if(err) {
-      res.status(400).send("Error uploading file.");
-      return;
+router.put('/upload', (req, res) => {
+  res.header("Content-Type", "application/json");
+  global.upload(req, res, (error) => {
+    if (error) {
+      res.status(400).send({
+        status: 'error'
+      })
+    } else {
+      res.status(200).send({
+        status: 'success'
+      })
     }
-    res.send("File uploaded.");
   })
 });
 
-router.post('/files', (req, res) => {
+router.delete('/delete/:filename', (req, res) => {
   res.header("Content-Type", "application/json");
-  res.header("Access-Control-Allow-Origin", "*");
+  fs.unlink('./server/static/uploads/' + req.params.filename, (error) => {
+    if (error) {
+      res.status(400).send({
+        status: 'error'
+      })
+    } else {
+      res.status(200).send({
+        status: 'success'
+      })
+    }
+  })
+});
 
-  let files = fs.readdirSync('./server/static/uploads/');
-
-  res.status(200).send({
-    status: 'success',
-    files: files
+router.get('/files', (req, res) => {
+  res.header("Content-Type", "application/json");
+    fs.readdir('./server/static/uploads/', (error, files) => {
+    if (error) {
+      res.status(400).send({
+        status: 'error'
+      })
+    } else {
+      res.status(200).send({
+        status: 'success',
+        files: files
+      })
+    }
   })
 });
 
