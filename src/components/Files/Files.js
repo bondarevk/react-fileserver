@@ -87,24 +87,27 @@ class Files extends Component {
   checkOverwrite(callback) {
     this.refs['filesList'].loadFilesList((error) => {
       if (error) {
+
         this.setState({
           successMessage: "",
           errorMessage: "Не удалось загрузить файлы. (" + error + ")",
         })
+
       } else {
         if (this.state.files.some(file => this.refs['filesList'].state.files.includes(file.name))) {
 
           bootbox.confirm({
-            message: "Файл с таким именем уже есть на сервере.<br>Перезаписать?",
+            message: 'На сервере уже есть файлы с таким названием.<br>Перезаписать?',
             buttons: {
               confirm: {
-                label: 'Да'
+                label: 'Да',
+                className: 'btn-danger'
               },
               cancel: {
                 label: 'Отмена'
               }
             },
-            callback: function (result) {
+            callback: (result) => {
               if (result === true) {
                 callback();
               }
@@ -114,7 +117,6 @@ class Files extends Component {
         } else {
           callback();
         }
-
       }
     })
   }
