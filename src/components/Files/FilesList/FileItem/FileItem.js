@@ -1,26 +1,44 @@
 import React, {Component} from 'react';
-import * as $ from "jquery";
 import './FileItem.css';
+import * as $ from "jquery";
+import bootbox from 'bootbox';
 
 class FileItem extends Component {
 
   deleteFile() {
-    $.ajax({
-      type: 'DELETE',
-      url: 'http://localhost:9000/api/delete/' + this.props.filename,
-      dataType: 'json',
-      contentType: 'application/json',
-      success: (data) => {
-        if (data.status === 'success') {
-          if (this.props.updateHandler) {
-            this.props.updateHandler();
-          }
+    bootbox.confirm({
+      message: 'Вы уверены, что хотите удалить файл ' + this.props.filename + '?',
+      buttons: {
+        confirm: {
+          label: 'Да',
+          className: 'btn-danger'
+        },
+        cancel: {
+          label: 'Отмена'
         }
       },
-      error: (data) => {
-        alert('Ошибка удаления файла: ' + data.status)
+      callback: (result) => {
+        if (result === true) {
+          $.ajax({
+            type: 'DELETE',
+            url: 'http://localhost:9000/api/delete/' + this.props.filename,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: (data) => {
+              if (data.status === 'success') {
+                if (this.props.updateHandler) {
+                  this.props.updateHandler();
+                }
+              }
+            },
+            error: (data) => {
+              alert('Ошибка удаления файла: ' + data.status)
+            }
+          })
+        }
       }
     })
+
   }
 
   downloadFile() {
