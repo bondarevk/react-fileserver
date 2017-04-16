@@ -12,7 +12,7 @@ class FilesList extends Component {
     }
   }
 
-  loadFilesList() {
+  loadFilesList(callback) {
     $.ajax({
       type: 'GET',
       url: 'http://localhost:9000/api/files',
@@ -22,8 +22,17 @@ class FilesList extends Component {
         if (data.status === 'success') {
           this.setState({
             files: data.files
-          })
+          });
+          if (callback)
+            callback(null);
+        } else {
+          if (callback)
+            callback(data.status);
         }
+      },
+      error: (data) => {
+        if (callback)
+          callback(data.status);
       }
     })
   }

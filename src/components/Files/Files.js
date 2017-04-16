@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import FilesList from "./FilesList/FilesList";
 import './Files.css';
 import * as $ from "jquery";
-import FilesList from "./FilesList/FilesList";
-const Dropzone = require('react-dropzone');
+import bootbox from 'bootbox';
+
+const DropZone = require('react-dropzone');
 
 class Files extends Component {
 
@@ -24,9 +26,12 @@ class Files extends Component {
 
     this.setState({
       files: files
-    });
+    })
   }
 
+  /**
+   * Загрузка файлов на сервер
+   */
   startLoad() {
     this.setState({
       loadEnabled: false
@@ -75,16 +80,49 @@ class Files extends Component {
     })
   }
 
+  /**
+   * Проверка конфликтов имен загружаемых файлов
+   * @param callback Вызывается после решения конфликтов в пользу новых файлов
+   */
   checkOverwrite(callback) {
-    if (true) {
-      callback();
-    }
+    this.refs['filesList'].loadFilesList((error) => {
+      if (error) {
+        this.setState({
+          successMessage: "",
+          errorMessage: "Не удалось загрузить файлы. (" + error + ")",
+        })
+      } else {
+        if (this.state.files.some(file => this.refs['filesList'].state.files.includes(file.name))) {
+
+          bootbox.confirm({
+            message: "Файл с таким именем уже есть на сервере.<br>Перезаписать?",
+            buttons: {
+              confirm: {
+                label: 'Да'
+              },
+              cancel: {
+                label: 'Отмена'
+              }
+            },
+            callback: function (result) {
+              if (result === true) {
+                callback();
+              }
+            }
+          })
+
+        } else {
+          callback();
+        }
+
+      }
+    })
   }
 
   onClickLoad() {
     this.checkOverwrite(() => {
       this.startLoad();
-    });
+    })
   }
 
   render() {
@@ -103,7 +141,7 @@ class Files extends Component {
               </div>
               : null}
 
-            <Dropzone onDrop={this.onDrop.bind(this)} disableClick={!this.state.loadEnabled} className='dropzone'
+            <DropZone onDrop={this.onDrop.bind(this)} disableClick={!this.state.loadEnabled} className='dropzone'
                       activeClassName='dropzone dropzone-active'>{
               this.state.files.length > 0 ?
                 <div style={{display: 'inline-block'}}>
@@ -113,7 +151,7 @@ class Files extends Component {
                   </ul>
                 </div>
                 : <div>Загрузить файл</div>}
-            </Dropzone>
+            </DropZone>
 
             <div className="progress progress-load">
               <div className="progress-bar progress-bar-striped" role="progressbar"

@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.17.1",
+    "bootbox": "^4.4.0",
+    "bootstrap": "^4.0.0-alpha.6",
     "express": "^4.15.2",
     "jquery": "^3.2.1",
     "morgan": "^1.8.1",
