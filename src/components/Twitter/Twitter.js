@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {Helmet} from "react-helmet";
 import './Twitter.css';
 import Message from "./Message/Message";
 
@@ -7,11 +8,7 @@ class Twitter extends Component {
   constructor() {
     super();
     this.state = {
-      messages: [{
-        text: 'Text',
-        sender: 'Guest',
-        date: new Date()
-      }],
+      messages: [],
       inputMessage: ''
     };
   }
@@ -34,14 +31,15 @@ class Twitter extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
+
+        <Helmet>
+          <title>Twitter</title>
+        </Helmet>
 
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <label>
-            Text:
-            <input type="text" value={this.state.inputMessage} onChange={this.handleChange.bind(this)} name="name" />
-          </label>
-          <input type="submit" value="Add" />
+          <input type="text" value={this.state.inputMessage} onChange={this.handleChange.bind(this)} name="name"/>
+          <input type="submit" value="Add"/>
         </form>
 
         <div>
@@ -49,7 +47,7 @@ class Twitter extends Component {
             {
               this.state.messages.map((message, key) => {
                 return <li key={key}>
-                  <Message text={message.text} sender={message.sender} time={message.date.toLocaleString()} />
+                  <Message text={message.text} sender={message.sender} time={message.date.toLocaleString()}/>
                 </li>
               })
             }

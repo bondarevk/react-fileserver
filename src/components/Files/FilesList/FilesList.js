@@ -12,6 +12,10 @@ class FilesList extends Component {
     }
   }
 
+  componentDidMount() {
+    this.loadFilesList();
+  }
+
   loadFilesList(callback) {
     $.ajax({
       type: 'GET',
@@ -35,15 +39,6 @@ class FilesList extends Component {
           callback(data.status);
       }
     })
-  }
-
-  componentDidMount() {
-    this.loadFilesList();
-    this.countdown = setInterval(this.loadFilesList.bind(this), 30000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.countdown);
   }
 
   render() {

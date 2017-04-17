@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Helmet} from "react-helmet";
 import FilesList from "./FilesList/FilesList";
 import './Files.css';
 import * as $ from "jquery";
@@ -34,7 +35,8 @@ class Files extends Component {
    */
   startLoad() {
     this.setState({
-      loadEnabled: false
+      loadEnabled: false,
+      loadProgress: 0
     });
 
     let formData = new FormData();
@@ -73,8 +75,7 @@ class Files extends Component {
         this.setState({
           loadEnabled: true,
           successMessage: "",
-          errorMessage: "Не удалось загрузить файлы. (" + data.status + ")",
-          loadProgress: 0
+          errorMessage: "Не удалось загрузить файлы. (" + data.status + ")"
         })
       }
     })
@@ -130,11 +131,16 @@ class Files extends Component {
   render() {
     return (
       <div>
+
+        <Helmet>
+          <title>Files</title>
+        </Helmet>
+
         <div className="upload-container container">
           <form>
             {this.state.successMessage ?
               <div className="alert-message alert alert-success" role="alert">
-                <strong>Успех!</strong> {this.state.successMessage}
+                {this.state.successMessage}
               </div>
               : null}
             {this.state.errorMessage ?
