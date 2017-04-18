@@ -1,7 +1,7 @@
-import React from 'react'
-import {BrowserRouter, Route, Switch, Link} from 'react-router-dom'
-import App from './components/App/App'
-import Twitter from './components/Twitter/Twitter'
+import React from "react";
+import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
+import App from "./components/App/App";
+import Twitter from "./components/Twitter/Twitter";
 import NotFound from "./components/NotFound/NotFound";
 import Files from "./components/Files/Files";
 
@@ -9,6 +9,13 @@ const Routes = () => (
   <BrowserRouter>
     <div>
       <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
+
+        <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"/>
+        </button>
+
         <Link className="navbar-brand" to="/">Whoop</Link>
 
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
