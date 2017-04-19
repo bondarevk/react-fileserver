@@ -63,7 +63,7 @@ router.get('/weather', (req, res) => {
 
   let day = +req.query['day'];
   if (day > 0 && day <= 7) {
-    res.send(weather[day + 1]);
+    res.send(weather[day - 1]);
   } else {
     res.status(400).send();
   }
