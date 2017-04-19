@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import * as $ from "jquery";
-import './FilesList.css';
-import FileItem from "./FileItem/FileItem";
+import "./FilesList.css";
+import FileItem from "../FileItem/FileItem";
 
 class FilesList extends Component {
 
@@ -14,12 +14,18 @@ class FilesList extends Component {
 
   componentDidMount() {
     this.loadFilesList();
+    this.interval = setInterval(this.loadFilesList.bind(this), 10000);
   }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
 
   loadFilesList(callback) {
     $.ajax({
       type: 'GET',
-      url: 'http://localhost:9000/api/files',
+      url: 'api/files',
       dataType: 'json',
       contentType: 'application/json',
       success: (data) => {
@@ -45,7 +51,8 @@ class FilesList extends Component {
     return (
       <div className="container files-container">
         <ul className="list-group">
-          {this.state.files.map((file, key) => <FileItem key={file} filename={file} updateHandler={this.loadFilesList.bind(this)}/>)}
+          {this.state.files.map((file, key) => <FileItem key={file} filename={file}
+                                                         updateHandler={this.loadFilesList.bind(this)}/>)}
         </ul>
       </div>
     )
