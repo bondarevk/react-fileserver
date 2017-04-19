@@ -24,7 +24,6 @@ class IOSocket {
   static checkPermissionLevel(socket, level) {
     if (socket.ulevel) {
       return socket.ulevel >= level;
-
     }
   }
 
@@ -53,6 +52,12 @@ class IOSocket {
               delete this.mutes[body];
             }
           }
+        }
+      },
+      ['/clear']: (socket, body) => {
+        if (this.checkPermissionLevel(socket, 4)) {
+          this.messagesHistory = [];
+          this.io.emit('clear');
         }
       }
     };
