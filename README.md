@@ -2,6 +2,7 @@
 
 Web server:
 ```
+npm i
 npm run build
 node server
 ```
