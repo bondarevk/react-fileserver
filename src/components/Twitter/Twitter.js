@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import {Helmet} from "react-helmet";
-import './Twitter.css';
+import * as io from "socket.io-client";
+import "./Twitter.css";
 import Message from "./Message/Message";
 
 class Twitter extends Component {
@@ -15,14 +16,51 @@ class Twitter extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+
+    let message = {
+      text: this.state.inputMessage
+    };
+
+    this.socket.emit('create message', message);
+
     this.setState({
-      messages: this.state.messages.concat({
-        text: this.state.inputMessage,
-        sender: 'Guest',
-        date: new Date()
-      }),
       inputMessage: ''
     })
+  }
+
+  componentWillMount() {
+    this.socket = io.connect();
+
+    this.socket.on('connect', () => {
+      console.log('connected');
+    });
+
+    this.socket.on('disconnect', () => {
+      console.log('disconnected');
+    });
+
+    this.socket.on('clear', () => {
+      this.setState({
+        messages: []
+      });
+    });
+
+    this.socket.on('new', (data) => {
+      console.log(data);
+      if (Array.isArray(data)) {
+        this.setState({
+          messages: data.reverse().concat(this.state.messages)
+        });
+      } else {
+        this.setState({
+          messages: [data].concat(this.state.messages)
+        });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.socket.disconnect();
   }
 
   handleChange(event) {
@@ -45,9 +83,9 @@ class Twitter extends Component {
         <div>
           <ul>
             {
-              this.state.messages.map((message, key) => {
-                return <li key={key}>
-                  <Message text={message.text} sender={message.sender} time={message.date.toLocaleString()}/>
+              this.state.messages.map((message) => {
+                return <li key={message.id}>
+                  <Message text={message.text} sender={message.sender} time={message.timestamp}/>
                 </li>
               })
             }

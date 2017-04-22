@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import './FileItem.css';
+import React, {Component} from "react";
+import PropTypes from "prop-types";
+import "./FileItem.css";
 import * as $ from "jquery";
-import bootbox from 'bootbox';
+import bootbox from "bootbox";
 
 class FileItem extends Component {
 
@@ -21,7 +22,7 @@ class FileItem extends Component {
         if (result === true) {
           $.ajax({
             type: 'DELETE',
-            url: 'http://localhost:9000/api/delete/' + this.props.filename,
+            url: 'api/delete/' + this.props.filename,
             dataType: 'json',
             contentType: 'application/json',
             success: (data) => {
@@ -59,7 +60,11 @@ class FileItem extends Component {
       </li>
     )
   }
-
 }
+
+FileItem.propTypes = {
+  filename: PropTypes.string.isRequired,
+  updateHandler: PropTypes.func
+};
 
 export default FileItem;

@@ -6,7 +6,13 @@ const multer = require('multer');
 const api = require('./routes/api');
 const fs = require("fs");
 
+const iosocket = require('./ioscoket');
+
 const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+iosocket.init(io);
 
 global.uploadsDir = './server/static/uploads/';
 
@@ -36,4 +42,4 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
-module.exports = app;
+module.exports = http;

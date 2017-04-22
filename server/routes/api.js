@@ -48,4 +48,25 @@ router.get('/files', (req, res) => {
   })
 });
 
+const weather = [
+  {c: '-1c'},
+  {c: '-2c'},
+  {c: '-3c'},
+  {c: '-4c'},
+  {c: '-5c'},
+  {c: '-6c'},
+  {c: '-7c'}
+];
+
+router.get('/weather', (req, res) => {
+  res.header("Content-Type", "application/json");
+
+  let day = +req.query['day'];
+  if (day > 0 && day <= 7) {
+    res.send(weather[day - 1]);
+  } else {
+    res.status(400).send();
+  }
+});
+
 module.exports = router;
