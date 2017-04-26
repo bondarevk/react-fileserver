@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import {Helmet} from "react-helmet";
 import FilesList from "./FilesList/FilesList";
-import './Files.css';
+import "./Files.css";
 import * as $ from "jquery";
-import bootbox from 'bootbox';
+import bootbox from "bootbox";
 
 const DropZone = require('react-dropzone');
 
@@ -11,6 +11,8 @@ class Files extends Component {
 
   constructor() {
     super();
+    this.onClickLoad = this.onClickLoad.bind(this);
+    this.onDrop = this.onDrop.bind(this);
     this.state = {
       files: [],
       loadEnabled: true,
@@ -149,7 +151,7 @@ class Files extends Component {
               </div>
               : null}
 
-            <DropZone onDrop={this.onDrop.bind(this)} disableClick={!this.state.loadEnabled} className='dropzone'
+            <DropZone onDrop={this.onDrop} disableClick={!this.state.loadEnabled} className='dropzone'
                       activeClassName='dropzone dropzone-active'>{
               this.state.files.length > 0 ?
                 <div style={{display: 'inline-block'}}>
@@ -168,7 +170,7 @@ class Files extends Component {
             </div>
 
             <button ref="myButton" type="button" className="btn btn-primary btn-upload"
-                    onClick={this.onClickLoad.bind(this)}
+                    onClick={this.onClickLoad}
                     disabled={this.state.files.length === 0 || !this.state.loadEnabled}>
               Загрузить на сервер
             </button>

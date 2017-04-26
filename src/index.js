@@ -7,7 +7,11 @@ import Routes from "./routes";
 global.jQuery = require("jquery");
 require('bootstrap');
 
-const user = observable({username: 'Guest'});
+
+class User {
+  @observable username = 'Guest';
+}
+const user = new User();
 
 ReactDOM.render(
   <Routes user={user}/>,

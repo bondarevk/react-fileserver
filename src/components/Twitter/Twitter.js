@@ -8,6 +8,8 @@ class Twitter extends Component {
 
   constructor() {
     super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       messages: [],
       inputMessage: ''
@@ -77,8 +79,8 @@ class Twitter extends Component {
           <title>Twitter</title>
         </Helmet>
 
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <input type="text" value={this.state.inputMessage} onChange={this.handleChange.bind(this)} name="name"/>
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" value={this.state.inputMessage} onChange={this.handleChange} name="name"/>
           <input type="submit" value="Add"/>
         </form>
 

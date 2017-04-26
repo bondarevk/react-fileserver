@@ -9,6 +9,7 @@ class UserControl extends Component {
 
   constructor() {
     super();
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       inputUsername: ''
     };
@@ -28,7 +29,7 @@ class UserControl extends Component {
           <title>User Panel</title>
         </Helmet>
 
-        <form className="form-inline" onSubmit={this.handleSubmit.bind(this)}>
+        <form className="form-inline" onSubmit={this.handleSubmit}>
           <input className="form-control" type="text" value={this.state.inputUsername}
                  onChange={event => this.setState({inputUsername: event.target.value})} placeholder="username"
                  name="name"/>
