@@ -52,6 +52,8 @@ class Twitter extends Component {
           messages: data.reverse().concat(this.state.messages)
         });
       } else {
+        this.refs['whoop'].play();
+        this.refs['whoop'].volume = 1.0;
         this.setState({
           messages: [data].concat(this.state.messages)
         });
@@ -79,6 +81,8 @@ class Twitter extends Component {
           <input type="text" value={this.state.inputMessage} onChange={this.handleChange.bind(this)} name="name"/>
           <input type="submit" value="Add"/>
         </form>
+
+        <audio ref="whoop" src="sound.mp3" preload="auto"/>
 
         <div>
           <ul>

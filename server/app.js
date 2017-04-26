@@ -33,13 +33,30 @@ const storage = multer.diskStorage({
 });
 global.upload = multer({ storage : storage }).array('file');
 
+global.bans = {};
+
 
 app.use(bodyParser.json());
 app.use('/api', api);
 app.use('/uploads', express.static(path.resolve(__dirname, 'static', 'uploads')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+  let ip = req.connection.remoteAddress;
+  if (ip.length > 7 && ip.startsWith('::ffff:')) {
+    ip = ip.substring(7);
+  }
+
+  console.log(`${req.baseUrl} - ${ip} > `);
+
+  if (global.bans.hasOwnProperty(ip)) {
+    if (global.bans[ip] === true) {
+      console.log('BAN');
+      res.send('<b>YOU HAVE BEEN BANNED</b><br><img src="https://s00.yaplakal.com/pics/pics_original/9/6/6/3334669.jpg">')
+    }
+  } else {
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+  }
+
 });
 
 module.exports = http;

@@ -59,6 +59,22 @@ class IOSocket {
           this.messagesHistory = [];
           this.io.emit('clear');
         }
+      },
+      ['/ban']: (socket, body) => {
+        if (this.checkPermissionLevel(socket, 5)) {
+          if (body) {
+            this.say(socket.username + ' забанил ' + body + '!');
+            global.bans[body] = true;
+          }
+        }
+      },
+      ['/unban']: (socket, body) => {
+        if (this.checkPermissionLevel(socket, 5)) {
+          if (body) {
+            this.say(socket.username + ' разбанил ' + body + '!');
+            delete global.bans[body];
+          }
+        }
       }
     };
     this.mutes = {};

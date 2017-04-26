@@ -1,9 +1,12 @@
 import React, {Component} from "react";
 import * as $ from "jquery";
 import {Helmet} from "react-helmet";
+import {inject, observer} from "mobx-react";
 import logo from "./logo.svg";
 import "./App.css";
 
+@inject("user")
+@observer
 class App extends Component {
 
   constructor() {
@@ -32,6 +35,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props.user);
     return (
       <div className="container App">
         <Helmet>
@@ -48,5 +52,6 @@ class App extends Component {
   }
 
 }
+;
 
 export default App;
