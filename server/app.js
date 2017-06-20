@@ -4,7 +4,7 @@ const path = require('path');
 const bodyParser = require("body-parser");
 const multer = require('multer');
 const api = require('./routes/api');
-const fs = require("fs");
+const fse = require('fs-extra');
 
 const iosocket = require('./ioscoket');
 
@@ -19,9 +19,7 @@ global.uploadsDir = './server/static/uploads/';
 app.use(morgan(':remote-addr - ":method :url HTTP/:http-version" :status :response-time ms'));
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
-if (!fs.existsSync(global.uploadsDir)){
-  fs.mkdirSync(global.uploadsDir);
-}
+fse.ensureDirSync(global.uploadsDir);
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -50,8 +48,7 @@ app.get('*', (req, res) => {
 
   if (global.bans.hasOwnProperty(ip)) {
     if (global.bans[ip] === true) {
-      console.log('BAN');
-      res.send('<b>YOU HAVE BEEN BANNED</b><br><img src="https://s00.yaplakal.com/pics/pics_original/9/6/6/3334669.jpg">')
+      res.send('<b>YOU HAVE BEEN BANNED</b>')
     }
   } else {
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));

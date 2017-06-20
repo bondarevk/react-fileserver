@@ -1,4 +1,4 @@
->React, Bootstrap 4, Express, Socket.io
+>React, Mobx, Bootstrap 4, Express, Socket.io
 
 Web server:
 ```
