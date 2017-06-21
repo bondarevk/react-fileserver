@@ -32,11 +32,11 @@ const Routes = observer((props) => (<div>
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                  Lessons
+                  [ ... ]
                 </a>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <Link className="dropdown-item" to="/twitter">Twitter</Link>
-                  <Link className="dropdown-item" to="/user">User Panel</Link>
+                  <Link className="dropdown-item" to="/twitter">Chat</Link>
+                  <Link className="dropdown-item" to="/user">User Panel (Mobx)</Link>
                 </div>
               </li>
             </ul>
